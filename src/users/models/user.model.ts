@@ -2,9 +2,11 @@ import {
   BelongsTo,
   Column,
   DataType,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { UserWallet } from '../../user_wallet/models/user_wallet.model';
 
 interface UserAttr {
   first_name: string;
@@ -102,6 +104,6 @@ export class User extends Model<User, UserAttr> {
   })
   hashed_refresh_token: string;
 
-  // @BelongsTo(() => Role, () => UserRoles)
-  // roles: Role[];
+  @HasMany(() => UserWallet)
+  userWallet: UserWallet[];
 }

@@ -3,18 +3,18 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
-import { User } from 'src/users/models/user.model';
 
-interface UserWalletAttr {
-  userId: number;
-  wallet: number;
+interface CategoriesAttr {
+  name: string;
+  parentId: number;
 }
 
-@Table({ tableName: 'user-wallet' })
-export class UserWallet extends Model<UserWallet, UserWalletAttr> {
+@Table({ tableName: 'categories' })
+export class Category extends Model<Category, CategoriesAttr> {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,
@@ -28,12 +28,15 @@ export class UserWallet extends Model<UserWallet, UserWalletAttr> {
   })
   name: string;
 
-  @ForeignKey(() => User)
+  @ForeignKey(() => Category)
   @Column({
     type: DataType.INTEGER,
   })
-  userId: number;
+  parentId: number;
 
-  @BelongsTo(() => User)
-  user: User;
+  @BelongsTo(() => Category)
+  parentCategory: Category;
+
+  // @HasMany(() => Stadiums)
+  // userWallet: Stadiums[];
 }
