@@ -3,10 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { User } from 'src/users/models/user.model';
+import { Cart } from '../../cart/models/cart.model';
 
 interface UserWalletAttr {
   userId: number;
@@ -36,4 +38,7 @@ export class UserWallet extends Model<UserWallet, UserWalletAttr> {
 
   @BelongsTo(() => User)
   user: User;
+
+  @HasMany(() => Cart)
+  stadium: Cart[];
 }

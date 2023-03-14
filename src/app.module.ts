@@ -15,6 +15,9 @@ import { MediaModule } from './media/media.module';
 import { CommentsModule } from './comments/comments.module';
 import { AdminModule } from './admin/admin.module';
 import { StadiumTimesModule } from './stadium_times/stadium_times.module';
+import { StatusModule } from './status/status.module';
+import { CartModule } from './cart/cart.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -46,6 +49,9 @@ import { StadiumTimesModule } from './stadium_times/stadium_times.module';
     CommentsModule,
     AdminModule,
     StadiumTimesModule,
+    StatusModule,
+    CartModule,
+    OrdersModule,
   ],
   controllers: [],
   providers: [],
