@@ -9,8 +9,10 @@ import { ActivateUserDto } from './dto/activate-user.dto';
 export class UsersService {
   constructor(@InjectModel(User) private userRepo: typeof User) {}
 
-  async createUser(createUserDto: CreateUserDto) {
-    const newUser = await this.userRepo.create(createUserDto);
+  async createUser(createUserDto: CreateUserDto, hashed_password: string) {
+    const newUser = await this.userRepo.create({...createUserDto,
+      hashed_password,
+    });
     return newUser;
   }
 

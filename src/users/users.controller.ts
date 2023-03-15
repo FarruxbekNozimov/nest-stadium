@@ -22,8 +22,8 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Create a user' })
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, hashed_password:string) {
+    return this.usersService.createUser(createUserDto, hashed_password);
   }
 
   @ApiOperation({ summary: 'Get all users' })

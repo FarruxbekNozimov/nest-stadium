@@ -46,5 +46,5 @@ export class CreateUserDto {
 
   @ApiProperty({ example: '2023-03-14' })
   @IsNotEmpty()
-  readonly birthday: Date;
+  readonly birthday: string;
 }

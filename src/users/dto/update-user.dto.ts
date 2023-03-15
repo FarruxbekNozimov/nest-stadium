@@ -26,7 +26,7 @@ export class UpdateUserDto {
   readonly user_photo?: string;
 
   @ApiProperty({ example: '2023-03-14' })
-  readonly birthday?: Date;
+  readonly birthday?: string;
 
   @ApiProperty({ example: 'Token' })
   readonly hashed_refresh_token?: string;

@@ -8,12 +8,12 @@ interface UserAttr {
   first_name: string;
   last_name: string;
   username: string;
-  password: string;
+  hashed_password: string;
   telegram_link: string;
   email: string;
   phone: string;
   user_photo: string;
-  birthday: Date;
+  birthday: string;
   is_owner: boolean;
   is_active: boolean;
   hashed_refresh_token: string;
@@ -34,9 +34,9 @@ export class User extends Model<User, UserAttr> {
   username: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  password: string;
+  hashed_password: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING })
   telegram_link: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
@@ -48,8 +48,8 @@ export class User extends Model<User, UserAttr> {
   @Column({ type: DataType.STRING })
   user_photo: string;
 
-  @Column({ type: DataType.DATE })
-  birthday: Date;
+  @Column({ type: DataType.STRING })
+  birthday: string;
 
   @Column({ type: DataType.BOOLEAN, defaultValue: false })
   is_owner: boolean;
@@ -60,7 +60,7 @@ export class User extends Model<User, UserAttr> {
   @Column({ type: DataType.STRING })
   hashed_refresh_token: string;
 
-  @Column({ type: DataType.STRING, defaultValue: false })
+  @Column({ type: DataType.STRING })
   activation_link: string;
 
   @HasMany(() => Stadium)
