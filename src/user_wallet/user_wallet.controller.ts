@@ -15,24 +15,24 @@ import { UpdateUserWalletDto } from './dto/update-user_wallet.dto';
 @ApiTags('User Wallet')
 @Controller('user-wallet')
 export class UserWalletController {
-  constructor(private readonly comfortService: UsersWalletService) {}
+  constructor(private readonly userWalletService: UsersWalletService) {}
 
   @ApiOperation({ summary: 'Create a User wallet' })
   @Post()
   createUserWallet(@Body() createUserWalletDto: CreateUserWalletDto) {
-    return this.comfortService.createUserWallet(createUserWalletDto);
+    return this.userWalletService.createUserWallet(createUserWalletDto);
   }
 
   @ApiOperation({ summary: 'Get all User wallet' })
   @Get()
   getAllUserWallets() {
-    return this.comfortService.getAllUserWallets();
+    return this.userWalletService.getAllUserWallets();
   }
 
   @ApiOperation({ summary: 'Get User wallet' })
   @Get(':id')
   getUserWalletById(@Param('id') id: string) {
-    return this.comfortService.getUserWalletById(+id);
+    return this.userWalletService.getUserWalletById(+id);
   }
 
   @ApiOperation({ summary: 'Update User wallet' })
@@ -41,12 +41,15 @@ export class UserWalletController {
     @Param('id') id: number,
     @Body() updateUserWalletDto: UpdateUserWalletDto,
   ) {
-    return await this.comfortService.updateUserWallet(+id, updateUserWalletDto);
+    return await this.userWalletService.updateUserWallet(
+      +id,
+      updateUserWalletDto,
+    );
   }
 
   @ApiOperation({ summary: 'Delete User wallet' })
   @Delete(':id')
   async deleteUserWallet(@Param('id') id: number): Promise<number> {
-    return await this.comfortService.deleteUserWallet(id);
+    return await this.userWalletService.deleteUserWallet(id);
   }
 }

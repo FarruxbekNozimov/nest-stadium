@@ -9,6 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { User } from 'src/users/models/user.model';
 import { Cart } from '../../cart/models/cart.model';
+import { Order } from '../../orders/models/order.model';
 
 interface UserWalletAttr {
   userId: number;
@@ -28,7 +29,7 @@ export class UserWallet extends Model<UserWallet, UserWalletAttr> {
     type: DataType.STRING,
     allowNull: false,
   })
-  name: string;
+  wallet: number;
 
   @ForeignKey(() => User)
   @Column({
@@ -40,5 +41,8 @@ export class UserWallet extends Model<UserWallet, UserWalletAttr> {
   user: User;
 
   @HasMany(() => Cart)
-  stadium: Cart[];
+  cart: Cart[];
+
+  @HasMany(() => Order)
+  order: Order[];
 }

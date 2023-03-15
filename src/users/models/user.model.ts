@@ -1,12 +1,8 @@
-import {
-  BelongsTo,
-  Column,
-  DataType,
-  HasMany,
-  Model,
-  Table,
-} from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { UserWallet } from '../../user_wallet/models/user_wallet.model';
+import { Stadium } from '../../stadiums/models/stadium.model';
+import { UserCard } from '../../user_cards/models/user_card.model';
+import { Comments } from '../../comments/models/comment.model';
 
 interface UserAttr {
   first_name: string;
@@ -28,12 +24,6 @@ export class User extends Model<User, UserAttr> {
     primaryKey: true,
   })
   id: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  name: string;
 
   @Column({
     type: DataType.STRING,
@@ -104,6 +94,15 @@ export class User extends Model<User, UserAttr> {
   })
   hashed_refresh_token: string;
 
+  @HasMany(() => Stadium)
+  stadium: Stadium[];
+
   @HasMany(() => UserWallet)
   userWallet: UserWallet[];
+
+  @HasMany(() => UserCard)
+  userCard: UserCard[];
+
+  @HasMany(() => Comments)
+  comments: Comments[];
 }

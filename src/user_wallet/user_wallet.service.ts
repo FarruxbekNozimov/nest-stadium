@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserWalletDto } from './dto/create-user_wallet.dto';
-import { UserWallet } from './models/user_wallet.model';
 import { UpdateUserWalletDto } from './dto/update-user_wallet.dto';
+import { UserWallet } from './models/user_wallet.model';
 
 @Injectable()
 export class UsersWalletService {

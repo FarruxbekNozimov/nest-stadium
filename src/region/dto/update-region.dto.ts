@@ -1,4 +1,8 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateRegionDto } from './create-region.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
 
-export class UpdateRegionDto extends PartialType(CreateRegionDto) {}
+export class UpdateRegionDto {
+  @ApiProperty({ example: 'Toshkent' })
+  @IsNotEmpty()
+  readonly name: string;
+}

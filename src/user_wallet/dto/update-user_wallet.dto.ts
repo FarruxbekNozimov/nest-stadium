@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateUserWalletDto } from './create-user_wallet.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateUserWalletDto extends PartialType(CreateUserWalletDto) {}
+export class UpdateUserWalletDto {
+  @ApiProperty({ example: '19000' })
+  readonly wallet?: number;
+}
