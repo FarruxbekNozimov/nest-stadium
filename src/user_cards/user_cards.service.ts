@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserCardDto } from './dto/create-user_card.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { UserCard } from './models/user_card.model';
+import { CreateCartDto } from '../cart/dto/create-cart.dto';
 import { UpdateUserCardDto } from './dto/update-user_card.dto';
 
 @Injectable()
-export class UserCardsService {
-  create(createUserCardDto: CreateUserCardDto) {
-    return 'This action adds a new userCard';
+export class UserCardService {
+  constructor(@InjectModel(UserCard) private userCardRepo: typeof UserCard) {}
+
+  async createUserCard(createCartDto: CreateCartDto) {
+    const newUserCard = await this.userCardRepo.create(createCartDto);
+    return newUserCard;
   }
 
-  findAll() {
-    return `This action returns all userCards`;
+  async getAllUserCards() {
+    const result = await this.userCardRepo.findAll({
+      include: { all: true },
+    });
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userCard`;
+  async getUserCardById(id: number) {
+    const result = await this.userCardRepo.findByPk(id);
+    return result;
   }
 
-  update(id: number, updateUserCardDto: UpdateUserCardDto) {
-    return `This action updates a #${id} userCard`;
+  async updateUserCard(id: number, updateUserCardDto: UpdateUserCardDto) {
+    const result = await this.userCardRepo.update(updateUserCardDto, {
+      where: { id },
+    });
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userCard`;
+  async deleteUserCard(id: number): Promise<number> {
+    const result = await this.userCardRepo.destroy({ where: { id } });
+    return result;
   }
 }

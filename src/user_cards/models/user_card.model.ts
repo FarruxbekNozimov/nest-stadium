@@ -55,11 +55,13 @@ export class UserCard extends Model<UserCard, UserCardAttr> {
 
   @Column({
     type: DataType.BOOLEAN,
+    defaultValue: false,
   })
   is_active: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
+    defaultValue: false,
   })
   is_main: boolean;
 

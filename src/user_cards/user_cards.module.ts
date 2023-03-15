@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { UserCardsService } from './user_cards.service';
-import { UserCardsController } from './user_cards.controller';
+import { UserCardController } from './user_cards.controller';
+import { UserCardService } from './user_cards.service';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { UserCard } from './models/user_card.model';
 
 @Module({
-  controllers: [UserCardsController],
-  providers: [UserCardsService]
+  imports: [SequelizeModule.forFeature([UserCard])],
+  controllers: [UserCardController],
+  providers: [UserCardService],
 })
 export class UserCardsModule {}
