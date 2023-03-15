@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './models/user.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -31,13 +26,25 @@ export class UsersService {
     });
     return user;
   }
+
+  async getUserByUsername(username: string) {
+    const user = await this.userRepo.findOne({
+      where: { username },
+      include: { all: true },
+    });
+    return user;
+  }
+
   async getUserById(id: number) {
     const user = await this.userRepo.findByPk(id);
     return user;
   }
 
   async updateUser(id: number, updatedUser: UpdateUserDto) {
-    const user = await this.userRepo.update(updatedUser, { where: { id } });
+    const user = await this.userRepo.update(updatedUser, {
+      where: { id },
+      returning: true,
+    });
     return user;
   }
 

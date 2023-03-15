@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsString,
+  IsStrongPassword,
+} from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'Toshmat' })
@@ -19,12 +24,14 @@ export class CreateUserDto {
 
   @ApiProperty({ example: 'Uzb@k!$t0n' })
   @IsNotEmpty()
-  @IsString()
-  readonly hashed_password: string;
+  @IsStrongPassword()
+  readonly password: string;
+
+  @ApiProperty({ example: 'Uzb@k!$t0n' })
+  @IsNotEmpty()
+  readonly confirm_password: string;
 
   @ApiProperty({ example: '@Toshbek' })
-  @IsNotEmpty()
-  @IsString()
   readonly telegram_link: string;
 
   @ApiProperty({ example: 'tosh@gmail.com' })
@@ -34,13 +41,8 @@ export class CreateUserDto {
 
   @ApiProperty({ example: '+998887028030' })
   @IsNotEmpty()
-  @IsString()
+  @IsPhoneNumber()
   readonly phone: string;
-
-  @ApiProperty({ example: '2137919738941.jpg' })
-  @IsNotEmpty()
-  @IsString()
-  readonly user_photo: string;
 
   @ApiProperty({ example: '2023-03-14' })
   @IsNotEmpty()

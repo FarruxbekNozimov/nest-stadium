@@ -33,6 +33,7 @@ import { StadiumTimes } from './stadium_times/models/stadium_time.model';
 import { Status } from './status/models/status.model';
 import { Cart } from './cart/models/cart.model';
 import { Order } from './orders/models/order.model';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -84,6 +85,7 @@ import { Order } from './orders/models/order.model';
     StatusModule,
     CartModule,
     OrdersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

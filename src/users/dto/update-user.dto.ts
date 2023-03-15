@@ -1,11 +1,36 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class UpdateUserDto {
-  readonly first_name: string;
-  readonly last_name: string;
-  readonly username: string;
-  readonly hashed_password: string;
-  readonly telegram_link: string;
-  readonly email: string;
-  readonly phone: string;
-  readonly user_photo: string;
-  readonly birthday: Date;
+  @ApiProperty({ example: 'Toshmat' })
+  readonly first_name?: string;
+
+  @ApiProperty({ example: 'Hoshimov' })
+  readonly last_name?: string;
+
+  @ApiProperty({ example: 'HoshimTosh' })
+  readonly username?: string;
+
+  @ApiProperty({ example: 'Uzb@k!$t0n' })
+  readonly hashed_password?: string;
+
+  @ApiProperty({ example: '@Toshbek' })
+  readonly telegram_link?: string;
+
+  @ApiProperty({ example: 'tosh@gmail.com' })
+  readonly email?: string;
+
+  @ApiProperty({ example: '+998887028030' })
+  readonly phone?: string;
+
+  @ApiProperty({ example: '2137919738941.jpg' })
+  readonly user_photo?: string;
+
+  @ApiProperty({ example: '2023-03-14' })
+  readonly birthday?: Date;
+
+  @ApiProperty({ example: 'Token' })
+  readonly hashed_refresh_token?: string;
+
+  @ApiProperty({ example: 'Link Activation' })
+  readonly activation_link?: string;
 }
