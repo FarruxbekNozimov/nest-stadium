@@ -16,12 +16,12 @@ interface StadiumAttr {
   owner_id: number;
   contactWith: string;
   name: string;
-  volume: number;
+  volume: string;
   address: string;
   region_id: number;
   district: number;
   location: string;
-  buildAt: Date;
+  buildAt: string;
   startTime: string;
   endTime: string;
 }
@@ -63,7 +63,7 @@ export class Stadium extends Model<Stadium, StadiumAttr> {
   @Column({
     type: DataType.DATE,
   })
-  buildAt: Date;
+  buildAt: string;
 
   @Column({
     type: DataType.STRING,
@@ -77,36 +77,28 @@ export class Stadium extends Model<Stadium, StadiumAttr> {
 
   // CATEGORY
   @ForeignKey(() => Category)
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @Column({ type: DataType.INTEGER })
   category_id: number;
   @BelongsTo(() => Category)
   category: Category[];
 
   // USER
   @ForeignKey(() => User)
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @Column({ type: DataType.INTEGER })
   user_id: number;
   @BelongsTo(() => User)
   user: User[];
 
   // REGION
   @ForeignKey(() => Region)
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @Column({ type: DataType.INTEGER })
   region_id: number;
   @BelongsTo(() => Region)
   region: Region[];
 
   // DISTRICT
   @ForeignKey(() => District)
-  @Column({
-    type: DataType.INTEGER,
-  })
+  @Column({ type: DataType.INTEGER })
   district_id: number;
   @BelongsTo(() => District)
   district: District[];

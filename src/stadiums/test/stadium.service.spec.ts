@@ -91,27 +91,4 @@ providers: [
       });
     });
   });
-
-  describe('deactivateUser', () => {
-    describe('when deactivateUser is called', () => {
-      test('then it should call stadiumService', async () => {
-        expect(
-          await stadiumService.deactivateUser({ userId: userStub().id }),
-        ).toEqual({ ...userStub(), is_active: false });
-      });
-    });
-  });
-
-  // describe('addRole', () => {
-  //   describe('when addRole is called', () => {
-  //     test('then it should call stadiumService', async () => {
-  //       expect(
-  //         await stadiumService.addRole({ value: 'ADMIN', userId: userStub().id }),
-  //       ).toEqual({
-  //         ...userStub(),
-  //         roles: [...userStub().roles, 'USER'],
-  //       });
-  //     });
-  //   });
-  // });
 });

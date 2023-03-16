@@ -1,34 +1,52 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { StadiumsService } from './stadiums.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { StadiumService } from './stadiums.service';
 import { CreateStadiumDto } from './dto/create-stadium.dto';
 import { UpdateStadiumDto } from './dto/update-stadium.dto';
 
-@Controller('stadiums')
-export class StadiumsController {
-  constructor(private readonly stadiumsService: StadiumsService) {}
+@ApiTags('Stadium')
+@Controller('stadium')
+export class StadiumController {
+  constructor(private readonly stadiumService: StadiumService) {}
 
+  @ApiOperation({ summary: 'Create a stadium' })
   @Post()
-  create(@Body() createStadiumDto: CreateStadiumDto) {
-    return this.stadiumsService.create(createStadiumDto);
+  createComfort(@Body() createStadiumDto: CreateStadiumDto) {
+    return this.stadiumService.createStadium(createStadiumDto);
   }
 
+  @ApiOperation({ summary: 'Get all stadium' })
   @Get()
-  findAll() {
-    return this.stadiumsService.findAll();
+  getAllComforts() {
+    return this.stadiumService.getAllStadiums();
   }
 
+  @ApiOperation({ summary: 'Get stadium' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.stadiumsService.findOne(+id);
+  getComfortById(@Param('id') id: string) {
+    return this.stadiumService.getStadiumById(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStadiumDto: UpdateStadiumDto) {
-    return this.stadiumsService.update(+id, updateStadiumDto);
+  @ApiOperation({ summary: 'Update stadium' })
+  @Put(':id')
+  async updateComfort(
+    @Param('id') id: number,
+    @Body() updateStadiumDto: UpdateStadiumDto,
+  ) {
+    return await this.stadiumService.updateStadium(+id, updateStadiumDto);
   }
 
+  @ApiOperation({ summary: 'Delete user' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.stadiumsService.remove(+id);
+  async deleteComfort(@Param('id') id: number): Promise<number> {
+    return await this.stadiumService.deleteStadium(id);
   }
 }

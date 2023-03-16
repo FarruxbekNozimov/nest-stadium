@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Stadium } from './models/stadium.model';
 import { CreateStadiumDto } from './dto/create-stadium.dto';
 import { UpdateStadiumDto } from './dto/update-stadium.dto';
 
 @Injectable()
-export class StadiumsService {
-  create(createStadiumDto: CreateStadiumDto) {
-    return 'This action adds a new stadium';
+export class StadiumService {
+  constructor(@InjectModel(Stadium) private stadiumRepo: typeof Stadium) {}
+
+  async createStadium(createStadiumDto: CreateStadiumDto) {
+    const newStadium = await this.stadiumRepo.create(createStadiumDto);
+    return newStadium;
   }
 
-  findAll() {
-    return `This action returns all stadiums`;
+  async getAllStadiums() {
+    const result = await this.stadiumRepo.findAll({ include: { all: true } });
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} stadium`;
+  async getStadiumById(id: number) {
+    const result = await this.stadiumRepo.findByPk(id);
+    return result;
   }
 
-  update(id: number, updateStadiumDto: UpdateStadiumDto) {
-    return `This action updates a #${id} stadium`;
+  async updateStadium(id: number, updateStadiumDto: UpdateStadiumDto) {
+    const result = await this.stadiumRepo.update(updateStadiumDto, {
+      where: { id },
+    });
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} stadium`;
+  async deleteStadium(id: number): Promise<number> {
+    const result = await this.stadiumRepo.destroy({ where: { id } });
+    return result;
   }
 }

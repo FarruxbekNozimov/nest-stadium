@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -13,18 +14,18 @@ import { LoginDto } from './dto/login-user.dto';
 import { User } from '../users/models/user.model';
 import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async registration(userDto: CreateUserDto, res: Response) {
-    const userIsExist = await this.userService.getUserByUsername(
-      userDto.username,
-    );
+    const userIsExist = await this.userService.getUserByEmail(userDto.email);
     if (userIsExist) {
       throw new HttpException(`Bunday user mavjud`, HttpStatus.BAD_REQUEST);
     }
@@ -50,6 +51,7 @@ export class AuthService {
       maxAge: 15 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
+    await this.mailService.sendUserConfirmation(updatedUser[1][0]);
 
     const response = {
       message: 'USER REGISTERED',
@@ -91,7 +93,23 @@ export class AuthService {
     return response;
   }
 
-  async logout(){}
+  async logout(refreshToken: string, res: Response) {
+    const userData = await this.jwtService.verify(refreshToken, {
+      secret: process.env.REFRESH_TOKEN_KEY,
+    });
+    if (!userData) {
+      throw new ForbiddenException('User not found');
+    }
+    const updatedUser = await this.userService.updateUser(userData.id, {
+      hashed_refresh_token: refreshToken,
+    });
+    res.clearCookie('refresh_token');
+    const response = {
+      message: 'User logged out successfully',
+      user: updatedUser[1][0],
+    };
+    return response;
+  }
 
   private async getToken(user: User) {
     const payload = {
@@ -107,9 +125,30 @@ export class AuthService {
       this.jwtService.signAsync(payload, {
         secret: process.env.REFRESH_TOKEN_KEY,
         expiresIn: process.env.ACCESS_TOKEN_TIME,
-      })
+      }),
     ]);
     return { access_token: accessToken, refresh_token: refreshToken };
+  }
+
+  async refreshToken(user_id: number, refreshToken: string, res: Response) {
+    const decodedToken = this.jwtService.decode(refreshToken);
+
+    if (user_id != decodedToken['id']) {
+      throw new BadRequestException('user not found');
+    }
+    const user = await this.userService.getUserById(user_id);
+    if (!user || !user.hashed_password) {
+      throw new BadRequestException('user not found');
+    }
+
+    const tokenMatch = await bcrypt.compare(refreshToken, user.hashed_password);
+    const tokens = await this.getToken(user);
+
+    const hashed_refresh_token = await bcrypt.hash(tokens.refresh_token, 7);
+
+    const updatedUser = await this.userService.updateUser(user.id, {
+      hashed_refresh_token: hashed_refresh_token,
+    });
   }
 
   private async validateUser(loginDto: LoginDto) {

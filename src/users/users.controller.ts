@@ -7,13 +7,14 @@ import {
   Param,
   Delete,
   Put,
-  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ActivateUserDto } from './dto/activate-user.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { User } from './models/user.model';
+import { CookieGetter } from '../decorators/cookieGetter.decorator';
 
 @ApiTags('Users')
 @Controller('users')
@@ -22,8 +23,8 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Create a user' })
   @Post()
-  create(@Body() createUserDto: CreateUserDto, hashed_password:string) {
-    return this.usersService.createUser(createUserDto, hashed_password);
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.createUser(createUserDto, createUserDto.password);
   }
 
   @ApiOperation({ summary: 'Get all users' })
@@ -50,15 +51,12 @@ export class UsersController {
     return await this.usersService.deleteUser(id);
   }
 
-  @ApiOperation({ summary: 'Activate user' })
-  @Post('activate')
-  activateRole(@Body() activateUserDto: ActivateUserDto) {
-    return this.usersService.activateUser(activateUserDto);
+  @ApiOperation({ summary: 'Activate User' })
+  @ApiResponse({ status: 200, type: [User] })
+  @Get('activate/:link')
+  activate(@Param('link') link: string) {
+    console.log(link);
+    return this.usersService.activate(link);
   }
 
-  @ApiOperation({ summary: 'Deactivate user' })
-  @Post('deactivate')
-  deactivateUser(@Body() activateUserDto: ActivateUserDto) {
-    return this.usersService.deactivateUser(activateUserDto);
-  }
 }
