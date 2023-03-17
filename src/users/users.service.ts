@@ -9,10 +9,25 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ActivateUserDto } from './dto/activate-user.dto';
+import { PhoneUserDto } from './dto/phone-user.dto';
+import * as otpGenerator from 'otp-generator';
+import { BotService } from '../bot/bot.service';
+import { Otp } from '../otp/models/otp.model';
+import { Op } from 'sequelize';
+import { v4 as uuidv4, v4 } from 'uuid';
+import { JwtService } from '@nestjs/jwt';
+import { MailService } from '../mail/mail.service';
+import { AddMinutesToDate } from '../helpers/addMinutes';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User) private userRepo: typeof User) {}
+  constructor(
+    @InjectModel(User) private userRepo: typeof User,
+    @InjectModel(Otp) private otpRepo: typeof Otp,
+    private readonly botService: BotService,
+    private readonly mailService: MailService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async createUser(createUserDto: CreateUserDto, hashed_password: string) {
     const newUser = await this.userRepo.create({
@@ -89,5 +104,41 @@ export class UsersService {
     user.is_active = false;
     await user.save();
     return user;
+  }
+
+  async newOTP(phoneUserDto: PhoneUserDto) {
+    const phone_number = phoneUserDto.phone;
+    const otp = otpGenerator.generate(4, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
+    const isSend = await this.botService.sendOTP(phone_number, otp);
+    if (!isSend) {
+      throw new HttpException(
+        "Avval Botdan ro'yhatdan o'ting",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const now = new Date();
+    const expiration_time = AddMinutesToDate(now, 5);
+    await this.otpRepo.destroy({
+      where: { [Op.and]: [{ check: phone_number }, { verified: false }] },
+    });
+    const newOtp = await this.otpRepo.create({
+      id: v4(),
+      otp,
+      expiration_time,
+      check: phone_number,
+    });
+    const details = {
+      timestamp: now,
+      check: phone_number,
+      success: true,
+      message: 'OTP sent to user',
+      otp_id: newOtp.id,
+    };
+    const encoded = await encodeURI(JSON.stringify(details));
+    return { status: 'Success', Details: encoded };
   }
 }

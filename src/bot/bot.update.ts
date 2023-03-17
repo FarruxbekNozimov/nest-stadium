@@ -1,42 +1,23 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Context } from 'telegraf';
 import { BotService } from './bot.service';
-import { CreateBotDto } from './dto/create-bot.dto';
-import { UpdateBotDto } from './dto/update-bot.dto';
+import { Command, Ctx, On, Start, Update } from 'nestjs-telegraf';
 
-@Controller('bot')
-export class BotController {
+@Update()
+export class BotUpdate {
   constructor(private readonly botService: BotService) {}
 
-  @Post()
-  create(@Body() createBotDto: CreateBotDto) {
-    return this.botService.create(createBotDto);
+  @Start()
+  async onStart(@Ctx() ctx: Context) {
+    return this.botService.start(ctx);
   }
 
-  @Get()
-  findAll() {
-    return this.botService.findAll();
+  @On('contact')
+  async onContact(@Ctx() ctx: Context) {
+    return this.botService.onContact(ctx);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.botService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBotDto: UpdateBotDto) {
-    return this.botService.update(+id, updateBotDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.botService.remove(+id);
+  @Command('stop')
+  async onStop(@Ctx() ctx: Context) {
+    return this.botService.start(ctx);
   }
 }

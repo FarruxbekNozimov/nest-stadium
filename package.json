@@ -35,6 +35,7 @@
     "cookie-parser": "^1.4.6",
     "handlebars": "^4.7.7",
     "nestjs-telegraf": "^2.6.3",
+    "otp-generator": "^4.0.1",
     "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
