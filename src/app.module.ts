@@ -35,9 +35,20 @@ import { Cart } from './cart/models/cart.model';
 import { Order } from './orders/models/order.model';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { BotModule } from './bot/bot.module';
+import { TelegrafModule } from 'nestjs-telegraf';
+import { BOT_NAME } from './app.constants';
 
 @Module({
   imports: [
+    TelegrafModule.forRootAsync({
+      botName: BOT_NAME,
+      useFactory: () => ({
+        token: process.env.BOT_TOKEN,
+        middlewares: [],
+        includes: [BotModule],
+      }),
+    }),
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
@@ -88,6 +99,7 @@ import { MailModule } from './mail/mail.module';
     OrdersModule,
     AuthModule,
     MailModule,
+    BotModule,
   ],
   controllers: [],
   providers: [],
