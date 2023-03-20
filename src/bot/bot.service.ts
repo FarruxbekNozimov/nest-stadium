@@ -108,7 +108,7 @@ export class BotService {
     });
     if (!user || !user.status) return false;
     await this.bot.telegram.sendChatAction(user.user_id, 'typing');
-    await this.bot.telegram.sendMessage(user.user_id, 'Verify code' + OTP);
+    await this.bot.telegram.sendMessage(user.user_id, 'Verify code ' + OTP);
     return true;
   }
 }

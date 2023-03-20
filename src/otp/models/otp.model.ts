@@ -11,8 +11,8 @@ interface OtpAttr {
 
 @Table({ tableName: 'otp' })
 export class Otp extends Model<Otp, OtpAttr> {
-  @Column({ type: DataType.INTEGER, autoIncrement: true, primaryKey: true })
-  id: number;
+  @Column({ type: DataType.UUID, autoIncrement: false, primaryKey: true})
+  id: string;
 
   @ApiProperty({ example: '1909' })
   @Column({ type: DataType.STRING, allowNull: false })

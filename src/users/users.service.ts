@@ -18,6 +18,7 @@ import { v4 as uuidv4, v4 } from 'uuid';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from '../mail/mail.service';
 import { AddMinutesToDate } from '../helpers/addMinutes';
+import { encode } from '../helpers/crypto';
 
 @Injectable()
 export class UsersService {
@@ -138,7 +139,7 @@ export class UsersService {
       message: 'OTP sent to user',
       otp_id: newOtp.id,
     };
-    const encoded = await encodeURI(JSON.stringify(details));
+    const encoded = await encode(JSON.stringify(details));
     return { status: 'Success', Details: encoded };
   }
 }

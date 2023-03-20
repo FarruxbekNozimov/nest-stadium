@@ -8,10 +8,12 @@ import { BotModule } from '../bot/bot.module';
 import { OtpModule } from '../otp/otp.module';
 import { MailModule } from '../mail/mail.module';
 import { Otp } from '../otp/models/otp.model';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([User, Otp]),
+    JwtModule,
     BotModule,
     OtpModule,
     MailModule,
