@@ -17,6 +17,7 @@ import { User } from './models/user.model';
 import { CookieGetter } from '../decorators/cookieGetter.decorator';
 import { PhoneUserDto } from './dto/phone-user.dto';
 import { VerifyOtpDto } from './dto/verifyOtp.dto';
+import { FindUserDto } from './dto/find-user.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -33,6 +34,11 @@ export class UsersController {
   @Get()
   getAllUsers() {
     return this.usersService.getAllUsers();
+  }
+
+  @Post('find')
+  findAll(@Body() findUserDto: FindUserDto) {
+    return this.usersService.findAll(findUserDto);
   }
 
   @ApiOperation({ summary: 'Get user by ID' })

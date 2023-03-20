@@ -20,6 +20,7 @@ import { MailService } from '../mail/mail.service';
 import { AddMinutesToDate } from '../helpers/addMinutes';
 import { dates, decode, encode } from '../helpers/crypto';
 import { VerifyOtpDto } from './dto/verifyOtp.dto';
+import { FindUserDto } from './dto/find-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -42,6 +43,38 @@ export class UsersService {
   async getAllUsers() {
     const users = await this.userRepo.findAll({ include: { all: true } });
     return users.sort((a, b) => a.id - b.id);
+  }
+  async findAll(findUserDto: FindUserDto) {
+    let where = {};
+    for (let i in findUserDto) {
+      if (findUserDto[i] && i != 'birthday_start' && i != 'birthday_end') {
+        where[i] = {
+          [Op.like]: `%${findUserDto[i]}%`,
+        };
+      }
+    }
+    if (findUserDto.birthday_start && !findUserDto.birthday_end) {
+      where['birthday'] = {
+        [Op.gte]: findUserDto.birthday_start,
+      };
+    }
+    if (!findUserDto.birthday_start && findUserDto.birthday_end) {
+      where['birthday'] = {
+        [Op.lt]: findUserDto.birthday_start,
+      };
+    }
+    if (findUserDto.birthday_start && findUserDto.birthday_end) {
+      where['birthday'] = {
+        [Op.between]: [findUserDto.birthday_start, findUserDto.birthday_end],
+      };
+    }
+    const users = await this.userRepo.findAll({
+      where: {
+        ...where,
+      },
+    });
+
+    return users;
   }
 
   async getUserByEmail(email: string) {
@@ -160,13 +193,15 @@ export class UsersService {
             const user = await this.userRepo.findOne({
               where: { phone: check },
             });
-            console.log(user);
             if (user) {
               const updatedUser = await this.userRepo.update(
                 { is_owner: true },
                 { where: { id: user.id }, returning: true },
               );
-              console.log(updatedUser);
+              await this.otpRepo.update(
+                { verified: true },
+                { where: { id: obj.otp_id }, returning: true },
+              );
               const response = {
                 message: 'User updated as owner',
                 user: updatedUser[1][0],
