@@ -38,7 +38,7 @@ import { MailModule } from './mail/mail.module';
 import { BotModule } from './bot/bot.module';
 import { TelegrafModule } from 'nestjs-telegraf';
 import { BOT_NAME } from './app.constants';
-import { Bot } from './bot/model/bot.model';
+import { Bot } from './bot/models/bot.model';
 import { OtpModule } from './otp/otp.module';
 
 @Module({

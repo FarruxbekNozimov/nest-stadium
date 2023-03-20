@@ -16,6 +16,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './models/user.model';
 import { CookieGetter } from '../decorators/cookieGetter.decorator';
 import { PhoneUserDto } from './dto/phone-user.dto';
+import { VerifyOtpDto } from './dto/verifyOtp.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -52,9 +53,15 @@ export class UsersController {
     return await this.usersService.deleteUser(id);
   }
   @ApiOperation({ summary: 'Otp phone' })
-  @Post('/otp')
+  @Post('otp')
   async newOtp(@Body() phoneUserDto: PhoneUserDto) {
     return await this.usersService.newOTP(phoneUserDto);
+  }
+
+  @ApiOperation({ summary: 'Otp phone' })
+  @Post('verify')
+  async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
+    return await this.usersService.verifyOtp(verifyOtpDto);
   }
 
   @ApiOperation({ summary: 'Activate User' })

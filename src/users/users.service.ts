@@ -18,7 +18,8 @@ import { v4 as uuidv4, v4 } from 'uuid';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from '../mail/mail.service';
 import { AddMinutesToDate } from '../helpers/addMinutes';
-import { encode } from '../helpers/crypto';
+import { dates, decode, encode } from '../helpers/crypto';
+import { VerifyOtpDto } from './dto/verifyOtp.dto';
 
 @Injectable()
 export class UsersService {
@@ -141,5 +142,48 @@ export class UsersService {
     };
     const encoded = await encode(JSON.stringify(details));
     return { status: 'Success', Details: encoded };
+  }
+
+  async verifyOtp(verifyOtpDto: VerifyOtpDto) {
+    const { verification_key, otp, check } = verifyOtpDto;
+    const currentdate = new Date();
+    const decoded = await decode(verification_key);
+    const obj = JSON.parse(decoded);
+    const check_obj = obj.check;
+    if (check_obj != check)
+      throw new BadRequestException('OTP bu raqamga yuborilmagan');
+    const result = await this.otpRepo.findOne({ where: { id: obj.otp_id } });
+    if (result != null) {
+      if (!result.verified) {
+        if (dates.compare(result.expiration_time, currentdate)) {
+          if (otp === result.otp) {
+            const user = await this.userRepo.findOne({
+              where: { phone: check },
+            });
+            console.log(user);
+            if (user) {
+              const updatedUser = await this.userRepo.update(
+                { is_owner: true },
+                { where: { id: user.id }, returning: true },
+              );
+              console.log(updatedUser);
+              const response = {
+                message: 'User updated as owner',
+                user: updatedUser[1][0],
+              };
+              return response;
+            }
+          } else {
+            throw new BadRequestException('Otp is not match');
+          }
+        } else {
+          throw new BadRequestException('Otp expired');
+        }
+      } else {
+        throw new BadRequestException('Otp already used');
+      }
+    } else {
+      throw new BadRequestException('Bunday foydalanuvchi yo`q');
+    }
   }
 }
