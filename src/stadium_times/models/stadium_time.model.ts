@@ -8,15 +8,15 @@ import {
 } from 'sequelize-typescript';
 import { Stadium } from '../../stadium/models/stadium.model';
 
-interface StadiumTimesAttr {
+interface StadiumTimeAttr {
   stadium_id: number;
   start_time: string;
   end_time: string;
   price: number;
 }
 
-@Table({ tableName: 'stadium-times' })
-export class StadiumTimes extends Model<StadiumTimes, StadiumTimesAttr> {
+@Table({ tableName: 'stadium-time' })
+export class StadiumTime extends Model<StadiumTime, StadiumTimeAttr> {
   @Column({ type: DataType.INTEGER, autoIncrement: true, primaryKey: true })
   id: number;
 

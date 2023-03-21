@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Admin } from './models/admin.model';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 
 @Injectable()
 export class AdminService {
-  create(createAdminDto: CreateAdminDto) {
-    return 'This action adds a new admin';
+  constructor(@InjectModel(Admin) private adminRepo: typeof Admin) {}
+
+  async createAdmin(createAdminDto: CreateAdminDto) {
+    const newAdmin = await this.adminRepo.create(createAdminDto);
+    return newAdmin;
   }
 
-  findAll() {
-    return `This action returns all admin`;
+  async getAllAdmins() {
+    const result = await this.adminRepo.findAll({ include: { all: true } });
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
+  async getAdminById(id: number) {
+    const result = await this.adminRepo.findByPk(id);
+    return result;
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    return `This action updates a #${id} admin`;
+  async updateAdmin(id: number, updateAdminDto: UpdateAdminDto) {
+    const result = await this.adminRepo.update(updateAdminDto, {
+      where: { id },
+    });
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} admin`;
+  async deleteAdmin(id: number): Promise<number> {
+    const result = await this.adminRepo.destroy({ where: { id } });
+    return result;
   }
 }

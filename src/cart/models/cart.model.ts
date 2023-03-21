@@ -8,7 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { User } from '../../users/models/user.model';
 import { UserWallet } from '../../user_wallet/models/user_wallet.model';
-import { StadiumTimes } from '../../stadium_times/models/stadium_time.model';
+import { StadiumTime } from '../../stadium_times/models/stadium_time.model';
 import { Status } from '../../status/models/status.model';
 
 interface CartAttr {
@@ -47,11 +47,11 @@ export class Cart extends Model<Cart, CartAttr> {
   @BelongsTo(() => UserWallet)
   userWallet: UserWallet[];
 
-  @ForeignKey(() => StadiumTimes)
+  @ForeignKey(() => StadiumTime)
   @Column({ type: DataType.INTEGER })
   st_times_id: number;
-  @BelongsTo(() => StadiumTimes)
-  stadiumTimes: StadiumTimes[];
+  @BelongsTo(() => StadiumTime)
+  stadiumTimes: StadiumTime[];
 
   @ForeignKey(() => Status)
   @Column({ type: DataType.INTEGER })

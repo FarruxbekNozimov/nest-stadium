@@ -12,12 +12,12 @@ import { UserCardsModule } from './user_cards/user_cards.module';
 import { StadiumsModule } from './stadium/stadiums.module';
 import { ComfortStadiumModule } from './comfort_stadium/comfort_stadium.module';
 import { MediaModule } from './media/media.module';
-import { CommentsModule } from './comments/comments.module';
+import { CommentModule } from './comment/comment.module';
 import { AdminModule } from './admin/admin.module';
-import { StadiumTimesModule } from './stadium_times/stadium_times.module';
+import { StadiumTimeModule } from './stadium_times/stadium_times.module';
 import { StatusModule } from './status/status.module';
 import { CartModule } from './cart/cart.module';
-import { OrdersModule } from './orders/orders.module';
+import { OrdersModule } from './order/orders.module';
 import { UserWallet } from './user_wallet/models/user_wallet.model';
 import { Comfort } from './comfort/models/comfort.model';
 import { Region } from './region/models/region.model';
@@ -27,12 +27,12 @@ import { UserCard } from './user_cards/models/user_card.model';
 import { Stadium } from './stadium/models/stadium.model';
 import { ComfortStadium } from './comfort_stadium/models/comfort_stadium.model';
 import { Media } from './media/models/media.model';
-import { Comments } from './comments/models/comment.model';
+import { Comment } from './comment/models/comment.model';
 import { Admin } from './admin/models/admin.model';
-import { StadiumTimes } from './stadium_times/models/stadium_time.model';
+import { StadiumTime } from './stadium_times/models/stadium_time.model';
 import { Status } from './status/models/status.model';
 import { Cart } from './cart/models/cart.model';
-import { Order } from './orders/models/order.model';
+import { Order } from './order/models/order.model';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { BotModule } from './bot/bot.module';
@@ -73,9 +73,9 @@ import { OtpModule } from './otp/otp.module';
         Stadium,
         ComfortStadium,
         Media,
-        Comments,
+        Comment,
         Admin,
-        StadiumTimes,
+        StadiumTime,
         Status,
         Cart,
         Order,
@@ -94,9 +94,9 @@ import { OtpModule } from './otp/otp.module';
     StadiumsModule,
     ComfortStadiumModule,
     MediaModule,
-    CommentsModule,
+    CommentModule,
     AdminModule,
-    StadiumTimesModule,
+    StadiumTimeModule,
     StatusModule,
     CartModule,
     OrdersModule,

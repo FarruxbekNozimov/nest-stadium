@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Status } from './models/status.model';
 import { CreateStatusDto } from './dto/create-status.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
 
 @Injectable()
 export class StatusService {
-  create(createStatusDto: CreateStatusDto) {
-    return 'This action adds a new status';
+  constructor(@InjectModel(Status) private statusRepo: typeof Status) {}
+
+  async createStatus(createStatusDto: CreateStatusDto) {
+    const newStatus = await this.statusRepo.create(createStatusDto);
+    return newStatus;
   }
 
-  findAll() {
-    return `This action returns all status`;
+  async getAllStatuss() {
+    const result = await this.statusRepo.findAll({
+      include: { all: true },
+    });
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} status`;
+  async getStatusById(id: number) {
+    const result = await this.statusRepo.findByPk(id);
+    return result;
   }
 
-  update(id: number, updateStatusDto: UpdateStatusDto) {
-    return `This action updates a #${id} status`;
+  async updateStatus(id: number, updateStatusDto: UpdateStatusDto) {
+    const result = await this.statusRepo.update(updateStatusDto, {
+      where: { id },
+    });
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} status`;
+  async deleteStatus(id: number): Promise<number> {
+    const result = await this.statusRepo.destroy({ where: { id } });
+    return result;
   }
 }

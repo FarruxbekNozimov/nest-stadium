@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { StadiumTime } from './models/stadium_time.model';
 import { CreateStadiumTimeDto } from './dto/create-stadium_time.dto';
 import { UpdateStadiumTimeDto } from './dto/update-stadium_time.dto';
 
 @Injectable()
-export class StadiumTimesService {
-  create(createStadiumTimeDto: CreateStadiumTimeDto) {
-    return 'This action adds a new stadiumTime';
+export class StadiumTimeService {
+  constructor(
+    @InjectModel(StadiumTime) private stadiumTimesRepo: typeof StadiumTime,
+  ) {}
+
+  async createStadiumTime(createStadiumTimeDto: CreateStadiumTimeDto) {
+    const newStadiumTime = await this.stadiumTimesRepo.create(
+      createStadiumTimeDto,
+    );
+    return newStadiumTime;
   }
 
-  findAll() {
-    return `This action returns all stadiumTimes`;
+  async getAllStadiumTimes() {
+    const result = await this.stadiumTimesRepo.findAll({
+      include: { all: true },
+    });
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} stadiumTime`;
+  async getStadiumTimeById(id: number) {
+    const result = await this.stadiumTimesRepo.findByPk(id);
+    return result;
   }
 
-  update(id: number, updateStadiumTimeDto: UpdateStadiumTimeDto) {
-    return `This action updates a #${id} stadiumTime`;
+  async updateStadiumTime(
+    id: number,
+    updateStadiumTimeDto: UpdateStadiumTimeDto,
+  ) {
+    const result = await this.stadiumTimesRepo.update(updateStadiumTimeDto, {
+      where: { id },
+    });
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} stadiumTime`;
+  async deleteStadiumTime(id: number): Promise<number> {
+    const result = await this.stadiumTimesRepo.destroy({ where: { id } });
+    return result;
   }
 }

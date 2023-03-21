@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateStatusDto } from './create-status.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateStatusDto extends PartialType(CreateStatusDto) {}
+export class UpdateStatusDto {
+  @ApiProperty({ example: 'Band' })
+  readonly name?: string;
+
+  @ApiProperty({ example: 'Odam bor edi' })
+  readonly description?: string;
+}

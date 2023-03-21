@@ -8,9 +8,9 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateUserCardDto } from './dto/create-user_card.dto';
 import { UserCardService } from './user_cards.service';
 import { UpdateUserCardDto } from './dto/update-user_card.dto';
+import { CreateCartDto } from '../cart/dto/create-cart.dto';
 
 @ApiTags('User Cards')
 @Controller('user-cards')
@@ -19,8 +19,8 @@ export class UserCardController {
 
   @ApiOperation({ summary: 'Create a user-cards' })
   @Post()
-  createComfort(@Body() createUserCardDto: CreateUserCardDto) {
-    return this.userCardService.createUserCard(createUserCardDto);
+  createComfort(@Body() CreateCartDto: CreateCartDto) {
+    return this.userCardService.createUserCard(CreateCartDto);
   }
 
   @ApiOperation({ summary: 'Get all user-cards' })

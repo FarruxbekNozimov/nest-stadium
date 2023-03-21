@@ -1,34 +1,56 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { StadiumTimesService } from './stadium_times.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { StadiumTimeService } from './stadium_times.service';
 import { CreateStadiumTimeDto } from './dto/create-stadium_time.dto';
 import { UpdateStadiumTimeDto } from './dto/update-stadium_time.dto';
 
-@Controller('stadium-times')
-export class StadiumTimesController {
-  constructor(private readonly stadiumTimesService: StadiumTimesService) {}
+@ApiTags('Stadium Time')
+@Controller('stadium-time')
+export class StadiumTimeController {
+  constructor(private readonly stadiumTimeService: StadiumTimeService) {}
 
+  @ApiOperation({ summary: 'Create a StadiumTime' })
+  @ApiBearerAuth()
   @Post()
-  create(@Body() createStadiumTimeDto: CreateStadiumTimeDto) {
-    return this.stadiumTimesService.create(createStadiumTimeDto);
+  createStadiumTime(@Body() createStadiumTimeDto: CreateStadiumTimeDto) {
+    return this.stadiumTimeService.createStadiumTime(createStadiumTimeDto);
   }
 
+  @ApiOperation({ summary: 'Get all StadiumTime' })
   @Get()
-  findAll() {
-    return this.stadiumTimesService.findAll();
+  getAllStadiumTimes() {
+    return this.stadiumTimeService.getAllStadiumTimes();
   }
 
+  @ApiOperation({ summary: 'Get StadiumTime' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.stadiumTimesService.findOne(+id);
+  getStadiumTimeById(@Param('id') id: string) {
+    return this.stadiumTimeService.getStadiumTimeById(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStadiumTimeDto: UpdateStadiumTimeDto) {
-    return this.stadiumTimesService.update(+id, updateStadiumTimeDto);
+  @ApiOperation({ summary: 'Update StadiumTime' })
+  @Put(':id')
+  async updateStadiumTime(
+    @Param('id') id: number,
+    @Body() updateStadiumTimeDto: UpdateStadiumTimeDto,
+  ) {
+    return await this.stadiumTimeService.updateStadiumTime(
+      +id,
+      updateStadiumTimeDto,
+    );
   }
 
+  @ApiOperation({ summary: 'Delete user' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.stadiumTimesService.remove(+id);
+  async deleteStadiumTime(@Param('id') id: number): Promise<number> {
+    return await this.stadiumTimeService.deleteStadiumTime(id);
   }
 }

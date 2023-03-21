@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateCartDto {
+export class CreateOrderDto {
   @ApiProperty({ example: '1' })
   @IsNotEmpty()
   readonly user_id: number;
@@ -17,10 +17,6 @@ export class CreateCartDto {
   @ApiProperty({ example: '2023-01-14T8:00' })
   @IsNotEmpty()
   readonly date: Date;
-
-  @ApiProperty({ example: '2023-01-14T8:00' })
-  @IsNotEmpty()
-  readonly time_for_clear: Date;
 
   @ApiProperty({ example: '1' })
   @IsNotEmpty()

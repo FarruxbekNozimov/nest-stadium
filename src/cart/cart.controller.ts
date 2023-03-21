@@ -7,36 +7,47 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 
+@ApiTags('Cart')
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
+  @ApiOperation({ summary: 'Create a Cart' })
+  @ApiBearerAuth()
   @Post()
-  create(@Body() createCartDto: CreateCartDto) {
-    return this.cartService.create(createCartDto);
+  createCart(@Body() createCartDto: CreateCartDto) {
+    return this.cartService.createCart(createCartDto);
   }
 
+  @ApiOperation({ summary: 'Get all Cart' })
   @Get()
-  findAll() {
-    return this.cartService.findAll();
+  getAllCarts() {
+    return this.cartService.getAllCarts();
   }
 
+  @ApiOperation({ summary: 'Get Cart' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartService.findOne(+id);
+  getCartById(@Param('id') id: string) {
+    return this.cartService.getCartById(+id);
   }
 
+  @ApiOperation({ summary: 'Update Cart' })
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartService.update(+id, updateCartDto);
+  async updateCart(
+    @Param('id') id: number,
+    @Body() updateCartDto: UpdateCartDto,
+  ) {
+    return await this.cartService.updateCart(+id, updateCartDto);
   }
 
+  @ApiOperation({ summary: 'Delete user' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartService.remove(+id);
+  async deleteCart(@Param('id') id: number): Promise<number> {
+    return await this.cartService.deleteCart(id);
   }
 }

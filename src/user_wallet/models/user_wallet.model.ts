@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { User } from 'src/users/models/user.model';
 import { Cart } from '../../cart/models/cart.model';
-import { Order } from '../../orders/models/order.model';
+import { Order } from '../../order/models/order.model';
 
 interface UserWalletAttr {
   userId: number;
