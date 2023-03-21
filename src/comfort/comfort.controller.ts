@@ -7,7 +7,7 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ComfortService } from './comfort.service';
 import { CreateComfortDto } from './dto/create-comfort.dto';
 import { UpdateComfortDto } from './dto/update-comfort.dto';
@@ -17,25 +17,26 @@ import { UpdateComfortDto } from './dto/update-comfort.dto';
 export class ComfortController {
   constructor(private readonly comfortService: ComfortService) {}
 
-  @ApiOperation({ summary: 'Create a comfort' })
+  @ApiOperation({ summary: 'Create a Comfort' })
+  @ApiBearerAuth()
   @Post()
   createComfort(@Body() createComfortDto: CreateComfortDto) {
     return this.comfortService.createComfort(createComfortDto);
   }
 
-  @ApiOperation({ summary: 'Get all comfort' })
+  @ApiOperation({ summary: 'Get all Comfort' })
   @Get()
   getAllComforts() {
     return this.comfortService.getAllComforts();
   }
 
-  @ApiOperation({ summary: 'Get comfort' })
+  @ApiOperation({ summary: 'Get Comfort' })
   @Get(':id')
   getComfortById(@Param('id') id: string) {
     return this.comfortService.getComfortById(+id);
   }
 
-  @ApiOperation({ summary: 'Update comfort' })
+  @ApiOperation({ summary: 'Update Comfort' })
   @Put(':id')
   async updateComfort(
     @Param('id') id: number,
@@ -44,7 +45,7 @@ export class ComfortController {
     return await this.comfortService.updateComfort(+id, updateComfortDto);
   }
 
-  @ApiOperation({ summary: 'Delete user' })
+  @ApiOperation({ summary: 'Delete Comfort' })
   @Delete(':id')
   async deleteComfort(@Param('id') id: number): Promise<number> {
     return await this.comfortService.deleteComfort(id);

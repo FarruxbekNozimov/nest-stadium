@@ -1,34 +1,60 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ComfortStadiumService } from './comfort_stadium.service';
 import { CreateComfortStadiumDto } from './dto/create-comfort_stadium.dto';
 import { UpdateComfortStadiumDto } from './dto/update-comfort_stadium.dto';
 
+@ApiTags('Comfort Stadium')
 @Controller('comfort-stadium')
 export class ComfortStadiumController {
   constructor(private readonly comfortStadiumService: ComfortStadiumService) {}
 
+  @ApiOperation({ summary: 'Create a ComfortStadium' })
+  @ApiBearerAuth()
   @Post()
-  create(@Body() createComfortStadiumDto: CreateComfortStadiumDto) {
-    return this.comfortStadiumService.create(createComfortStadiumDto);
+  createComfortStadium(
+    @Body() createComfortStadiumDto: CreateComfortStadiumDto,
+  ) {
+    return this.comfortStadiumService.createComfortStadium(
+      createComfortStadiumDto,
+    );
   }
 
+  @ApiOperation({ summary: 'Get all ComfortStadium' })
   @Get()
-  findAll() {
-    return this.comfortStadiumService.findAll();
+  getAllComfortStadiums() {
+    return this.comfortStadiumService.getAllComfortStadiums();
   }
 
+  @ApiOperation({ summary: 'Get ComfortStadium' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.comfortStadiumService.findOne(+id);
+  getComfortStadiumById(@Param('id') id: string) {
+    return this.comfortStadiumService.getComfortStadiumById(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateComfortStadiumDto: UpdateComfortStadiumDto) {
-    return this.comfortStadiumService.update(+id, updateComfortStadiumDto);
+  @ApiOperation({ summary: 'Update ComfortStadium' })
+  @Put(':id')
+  async updateComfortStadium(
+    @Param('id') id: number,
+    @Body() updateComfortStadiumDto: UpdateComfortStadiumDto,
+  ) {
+    return await this.comfortStadiumService.updateComfortStadium(
+      +id,
+      updateComfortStadiumDto,
+    );
   }
 
+  @ApiOperation({ summary: 'Delete user' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.comfortStadiumService.remove(+id);
+  async deleteComfortStadium(@Param('id') id: number): Promise<number> {
+    return await this.comfortStadiumService.deleteComfortStadium(id);
   }
 }

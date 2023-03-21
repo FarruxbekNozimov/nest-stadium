@@ -53,15 +53,12 @@ export class UsersService {
         };
       }
     }
+
     if (findUserDto.birthday_start && !findUserDto.birthday_end) {
-      where['birthday'] = {
-        [Op.gte]: findUserDto.birthday_start,
-      };
+      where['birthday'] = { [Op.gte]: findUserDto.birthday_start };
     }
     if (!findUserDto.birthday_start && findUserDto.birthday_end) {
-      where['birthday'] = {
-        [Op.lt]: findUserDto.birthday_start,
-      };
+      where['birthday'] = { [Op.lt]: findUserDto.birthday_start };
     }
     if (findUserDto.birthday_start && findUserDto.birthday_end) {
       where['birthday'] = {

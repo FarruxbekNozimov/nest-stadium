@@ -1,6 +1,6 @@
 import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { UserWallet } from '../../user_wallet/models/user_wallet.model';
-import { Stadium } from '../../stadiums/models/stadium.model';
+import { Stadium } from '../../stadium/models/stadium.model';
 import { UserCard } from '../../user_cards/models/user_card.model';
 import { Comments } from '../../comments/models/comment.model';
 

@@ -86,7 +86,7 @@ export class AuthService {
     });
 
     const response = {
-      message: 'USER REGISTERED',
+      message: 'USER LOGIN',
       user: updatedUser[1][0],
       tokens,
     };

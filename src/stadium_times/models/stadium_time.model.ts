@@ -6,7 +6,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Stadium } from '../../stadiums/models/stadium.model';
+import { Stadium } from '../../stadium/models/stadium.model';
 
 interface StadiumTimesAttr {
   stadium_id: number;

@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Media } from './models/media.model';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
 
 @Injectable()
 export class MediaService {
-  create(createMediaDto: CreateMediaDto) {
-    return 'This action adds a new media';
+  constructor(@InjectModel(Media) private mediaRepo: typeof Media) {}
+
+  async createMedia(createMediaDto: CreateMediaDto) {
+    const newMedia = await this.mediaRepo.create(createMediaDto);
+    return newMedia;
   }
 
-  findAll() {
-    return `This action returns all media`;
+  async getAllMedias() {
+    const result = await this.mediaRepo.findAll({
+      include: { all: true },
+    });
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} media`;
+  async getMediaById(id: number) {
+    const result = await this.mediaRepo.findByPk(id);
+    return result;
   }
 
-  update(id: number, updateMediaDto: UpdateMediaDto) {
-    return `This action updates a #${id} media`;
+  async updateMedia(id: number, updateMediaDto: UpdateMediaDto) {
+    const result = await this.mediaRepo.update(updateMediaDto, {
+      where: { id },
+    });
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} media`;
+  async deleteMedia(id: number): Promise<number> {
+    const result = await this.mediaRepo.destroy({ where: { id } });
+    return result;
   }
 }

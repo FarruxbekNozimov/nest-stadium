@@ -14,20 +14,22 @@ export class ComfortService {
   }
 
   async getAllComforts() {
-    const comfort = await this.comfortRepo.findAll({ include: { all: true } });
-    return comfort.sort((a, b) => a.id - b.id);
+    const result = await this.comfortRepo.findAll({
+      include: { all: true },
+    });
+    return result;
   }
 
   async getComfortById(id: number) {
-    const comfort = await this.comfortRepo.findByPk(id);
-    return comfort;
+    const result = await this.comfortRepo.findByPk(id);
+    return result;
   }
 
   async updateComfort(id: number, updateComfortDto: UpdateComfortDto) {
-    const comfort = await this.comfortRepo.update(updateComfortDto, {
+    const result = await this.comfortRepo.update(updateComfortDto, {
       where: { id },
     });
-    return comfort;
+    return result;
   }
 
   async deleteComfort(id: number): Promise<number> {

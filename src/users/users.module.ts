@@ -9,6 +9,7 @@ import { OtpModule } from '../otp/otp.module';
 import { MailModule } from '../mail/mail.module';
 import { Otp } from '../otp/models/otp.model';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { JwtModule } from '@nestjs/jwt';
     BotModule,
     OtpModule,
     MailModule,
+    forwardRef(() => AuthModule),
   ],
   controllers: [UsersController],
   providers: [UsersService],

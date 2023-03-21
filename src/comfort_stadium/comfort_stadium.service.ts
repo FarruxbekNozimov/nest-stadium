@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
-import { CreateComfortStadiumDto } from './dto/create-comfort_stadium.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { ComfortStadium } from './models/comfort_stadium.model';
 import { UpdateComfortStadiumDto } from './dto/update-comfort_stadium.dto';
+import { CreateComfortStadiumDto } from './dto/create-comfort_stadium.dto';
 
 @Injectable()
 export class ComfortStadiumService {
-  create(createComfortStadiumDto: CreateComfortStadiumDto) {
-    return 'This action adds a new comfortStadium';
+  constructor(
+    @InjectModel(ComfortStadium)
+    private comfortStadiumRepo: typeof ComfortStadium,
+  ) {}
+
+  async createComfortStadium(createComfortDto: CreateComfortStadiumDto) {
+    const newComfortStadium = await this.comfortStadiumRepo.create(
+      createComfortDto,
+    );
+    return newComfortStadium;
   }
 
-  findAll() {
-    return `This action returns all comfortStadium`;
+  async getAllComfortStadiums() {
+    const result = await this.comfortStadiumRepo.findAll({
+      include: { all: true },
+    });
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comfortStadium`;
+  async getComfortStadiumById(id: number) {
+    const result = await this.comfortStadiumRepo.findByPk(id);
+    return result;
   }
 
-  update(id: number, updateComfortStadiumDto: UpdateComfortStadiumDto) {
-    return `This action updates a #${id} comfortStadium`;
+  async updateComfortStadium(
+    id: number,
+    updateComfortStadiumDto: UpdateComfortStadiumDto,
+  ) {
+    const result = await this.comfortStadiumRepo.update(
+      updateComfortStadiumDto,
+      { where: { id } },
+    );
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comfortStadium`;
+  async deleteComfortStadium(id: number): Promise<number> {
+    const result = await this.comfortStadiumRepo.destroy({ where: { id } });
+    return result;
   }
 }

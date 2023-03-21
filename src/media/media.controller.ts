@@ -1,34 +1,53 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { MediaService } from './media.service';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
 
+@ApiTags('Media')
 @Controller('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
+  @ApiOperation({ summary: 'Create a Media' })
+  @ApiBearerAuth()
   @Post()
-  create(@Body() createMediaDto: CreateMediaDto) {
-    return this.mediaService.create(createMediaDto);
+  createMedia(@Body() createMediaDto: CreateMediaDto) {
+    return this.mediaService.createMedia(createMediaDto);
   }
 
+  @ApiOperation({ summary: 'Get all Media' })
   @Get()
-  findAll() {
-    return this.mediaService.findAll();
+  getAllMedias() {
+    return this.mediaService.getAllMedias();
   }
 
+  @ApiOperation({ summary: 'Get Media' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.mediaService.findOne(+id);
+  getMediaById(@Param('id') id: string) {
+    return this.mediaService.getMediaById(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMediaDto: UpdateMediaDto) {
-    return this.mediaService.update(+id, updateMediaDto);
+  @ApiOperation({ summary: 'Update Media' })
+  @Put(':id')
+  async updateMedia(
+    @Param('id') id: number,
+    @Body() updateMediaDto: UpdateMediaDto,
+  ) {
+    return await this.mediaService.updateMedia(+id, updateMediaDto);
   }
 
+  @ApiOperation({ summary: 'Delete user' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.mediaService.remove(+id);
+  async deleteMedia(@Param('id') id: number): Promise<number> {
+    return await this.mediaService.deleteMedia(id);
   }
 }

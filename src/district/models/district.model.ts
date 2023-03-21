@@ -8,7 +8,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Region } from '../../region/models/region.model';
-import { Stadium } from '../../stadiums/models/stadium.model';
+import { Stadium } from '../../stadium/models/stadium.model';
 
 interface DistrictAttr {
   name: string;

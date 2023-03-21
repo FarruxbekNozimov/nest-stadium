@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateComfortStadiumDto } from './create-comfort_stadium.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateComfortStadiumDto extends PartialType(CreateComfortStadiumDto) {}
+export class UpdateComfortStadiumDto {
+  @ApiProperty({ example: '1' })
+  readonly stadium_id?: number;
+
+  @ApiProperty({ example: '1' })
+  readonly category_id?: number;
+}
