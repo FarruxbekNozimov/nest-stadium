@@ -6,14 +6,10 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
-import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(
-    private readonly jwtService: JwtService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
   async canActivate(context: ExecutionContext) {
     const req = context.switchToHttp().getRequest();
     const authHeader = req.headers.authorization;
