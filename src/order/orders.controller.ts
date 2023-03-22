@@ -38,7 +38,7 @@ export class OrderController {
   @ApiOperation({ summary: 'Get Order' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getOrderById(@Param('id') id: string) {
+  getOrderById(@Param('id') id: number) {
     return this.orderService.getOrderById(+id);
   }
 

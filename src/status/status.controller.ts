@@ -38,7 +38,7 @@ export class StatusController {
   @ApiOperation({ summary: 'Get Status' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getStatusById(@Param('id') id: string) {
+  getStatusById(@Param('id') id: number) {
     return this.statusService.getStatusById(+id);
   }
 

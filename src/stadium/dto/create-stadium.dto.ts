@@ -1,10 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsPhoneNumber,
-  IsString,
-  IsStrongPassword,
-} from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateStadiumDto {
   @ApiProperty({ example: '1' })
@@ -17,7 +12,7 @@ export class CreateStadiumDto {
 
   @ApiProperty({ example: 'Telegram' })
   @IsNotEmpty()
-  contactWith: string;
+  contact_with: string;
 
   @ApiProperty({ example: 'Bunyodkor' })
   @IsNotEmpty()
@@ -27,7 +22,7 @@ export class CreateStadiumDto {
   @IsNotEmpty()
   volume: string;
 
-  @ApiProperty({ example: 'Murzo Ulugbek' })
+  @ApiProperty({ example: 'Mirzo Ulugbek' })
   @IsNotEmpty()
   address: string;
 
@@ -37,7 +32,7 @@ export class CreateStadiumDto {
 
   @ApiProperty({ example: '1' })
   @IsNotEmpty()
-  district: number;
+  district_id: number;
 
   @ApiProperty({ example: '41.299496-69.240074' })
   @IsNotEmpty()
@@ -49,9 +44,9 @@ export class CreateStadiumDto {
 
   @ApiProperty({ example: '8:00' })
   @IsNotEmpty()
-  startTime: string;
+  start_time: string;
 
   @ApiProperty({ example: '16:00' })
   @IsNotEmpty()
-  endTime: string;
+  end_time: string;
 }

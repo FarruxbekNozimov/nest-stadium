@@ -38,7 +38,7 @@ export class CommentController {
   @ApiOperation({ summary: 'Get Comment' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getCommentById(@Param('id') id: string) {
+  getCommentById(@Param('id') id: number) {
     return this.commentService.getCommentById(+id);
   }
 

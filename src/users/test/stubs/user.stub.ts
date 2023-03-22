@@ -6,12 +6,12 @@ export const userStub = (): Partial<User> => {
     first_name: 'Toshmat',
     last_name: 'Hoshimov',
     username: 'HoshimTosh',
-    hashed_password:
-      '$2b$07$PtBnR0xINXKbPmp/XadhVehRUYV4Cu3IhiHfk8riLLpnfmaLFfi8S',
+    hashed_password: 'Uzb@k!$t0n',
+    telegram_link: '@Toshbek',
     email: 'tosh@gmail.com',
-    phone: '+998887028030',
+    phone: '+998887038006',
     birthday: '2023-03-14',
-    is_active: false,
-    is_owner: false,
+    is_owner: true,
+    is_active: true,
   };
 };

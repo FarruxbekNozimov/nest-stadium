@@ -38,7 +38,7 @@ export class MediaController {
   @ApiOperation({ summary: 'Get Media' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getMediaById(@Param('id') id: string) {
+  getMediaById(@Param('id') id: number) {
     return this.mediaService.getMediaById(+id);
   }
 

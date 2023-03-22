@@ -28,8 +28,6 @@ export class UsersService {
     @InjectModel(User) private userRepo: typeof User,
     @InjectModel(Otp) private otpRepo: typeof Otp,
     private readonly botService: BotService,
-    private readonly mailService: MailService,
-    private readonly jwtService: JwtService,
   ) {}
 
   async createUser(createUserDto: CreateUserDto, hashed_password: string) {
@@ -42,8 +40,9 @@ export class UsersService {
 
   async getAllUsers() {
     const users = await this.userRepo.findAll({ include: { all: true } });
-    return users.sort((a, b) => a.id - b.id);
+    return users;
   }
+
   async findAll(findUserDto: FindUserDto) {
     let where = {};
     for (let i in findUserDto) {

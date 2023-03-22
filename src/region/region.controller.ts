@@ -38,7 +38,7 @@ export class RegionController {
   @ApiOperation({ summary: 'Get region' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getComfortById(@Param('id') id: string) {
+  getComfortById(@Param('id') id: number) {
     return this.regionService.getRegionById(+id);
   }
 

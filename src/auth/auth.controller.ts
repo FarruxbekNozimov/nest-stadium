@@ -39,7 +39,7 @@ export class AuthController {
 
   @Post(':id/refresh')
   refresh(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @CookieGetter('refresh_token') refreshToken: string,
     @Res({ passthrough: true }) res: Response,
   ) {

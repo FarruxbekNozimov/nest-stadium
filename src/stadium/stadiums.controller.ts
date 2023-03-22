@@ -11,9 +11,9 @@ import {
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { StadiumService } from './stadiums.service';
 import { CreateStadiumDto } from './dto/create-stadium.dto';
-import { UpdateStadiumDto } from './dto/update-stadium.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guards';
 import { AdminAuthGuard } from '../guards/admin-auth.guards';
+import { UpdateStadiumDto } from './dto/update-stadium.dto';
 
 @ApiTags('Stadium')
 @Controller('stadium')
@@ -24,21 +24,21 @@ export class StadiumController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(AdminAuthGuard)
   @Post()
-  createComfort(@Body() createStadiumDto: CreateStadiumDto) {
+  createStadium(@Body() createStadiumDto: CreateStadiumDto) {
     return this.stadiumService.createStadium(createStadiumDto);
   }
 
   @ApiOperation({ summary: 'Get all stadium' })
   @UseGuards(JwtAuthGuard)
   @Get()
-  getAllComforts() {
+  getAllStadiums() {
     return this.stadiumService.getAllStadiums();
   }
 
   @ApiOperation({ summary: 'Get stadium' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getComfortById(@Param('id') id: string) {
+  getStadiumById(@Param('id') id: number) {
     return this.stadiumService.getStadiumById(+id);
   }
 
@@ -46,7 +46,7 @@ export class StadiumController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(AdminAuthGuard)
   @Put(':id')
-  async updateComfort(
+  async updateStadium(
     @Param('id') id: number,
     @Body() updateStadiumDto: UpdateStadiumDto,
   ) {
@@ -57,7 +57,7 @@ export class StadiumController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(AdminAuthGuard)
   @Delete(':id')
-  async deleteComfort(@Param('id') id: number): Promise<number> {
+  async deleteStadium(@Param('id') id: number): Promise<number> {
     return await this.stadiumService.deleteStadium(id);
   }
 }

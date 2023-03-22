@@ -38,7 +38,7 @@ export class ComfortController {
   @ApiOperation({ summary: 'Get Comfort' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getComfortById(@Param('id') id: string) {
+  getComfortById(@Param('id') id: number) {
     return this.comfortService.getComfortById(+id);
   }
 

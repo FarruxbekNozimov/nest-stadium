@@ -38,7 +38,7 @@ export class UserCardController {
   @ApiOperation({ summary: 'Get user-cards' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getComfortById(@Param('id') id: string) {
+  getComfortById(@Param('id') id: number) {
     return this.userCardService.getUserCardById(+id);
   }
 

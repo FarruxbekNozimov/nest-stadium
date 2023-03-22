@@ -38,7 +38,7 @@ export class CategoryController {
   @ApiOperation({ summary: 'Get category' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getComfortById(@Param('id') id: string) {
+  getComfortById(@Param('id') id: number) {
     return this.categoryService.getCategoryById(+id);
   }
 

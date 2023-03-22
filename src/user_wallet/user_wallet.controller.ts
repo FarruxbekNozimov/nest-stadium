@@ -38,7 +38,7 @@ export class UserWalletController {
   @ApiOperation({ summary: 'Get User wallet' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getUserWalletById(@Param('id') id: string) {
+  getUserWalletById(@Param('id') id: number) {
     return this.userWalletService.getUserWalletById(+id);
   }
 

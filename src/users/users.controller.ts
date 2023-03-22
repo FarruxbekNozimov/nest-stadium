@@ -31,7 +31,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(AdminAuthGuard)
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto, createUserDto.password);
   }
 
@@ -52,7 +52,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Get user by ID' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getUserById(@Param('id') id: string) {
+  getUserById(@Param('id') id: number) {
     return this.usersService.getUserById(+id);
   }
 

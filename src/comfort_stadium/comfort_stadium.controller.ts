@@ -42,7 +42,7 @@ export class ComfortStadiumController {
   @ApiOperation({ summary: 'Get ComfortStadium' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getComfortStadiumById(@Param('id') id: string) {
+  getComfortStadiumById(@Param('id') id: number) {
     return this.comfortStadiumService.getComfortStadiumById(+id);
   }
 

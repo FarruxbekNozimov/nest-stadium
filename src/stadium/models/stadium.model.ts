@@ -6,7 +6,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { User } from 'src/users/models/user.model';
+import { User } from '../../users/models/user.model';
 import { Region } from '../../region/models/region.model';
 import { Category } from '../../categories/models/category.model';
 import { District } from '../../district/models/district.model';
@@ -14,16 +14,16 @@ import { District } from '../../district/models/district.model';
 interface StadiumAttr {
   category_id: number;
   owner_id: number;
-  contactWith: string;
+  contact_with: string;
   name: string;
   volume: string;
   address: string;
   region_id: number;
-  district: number;
+  district_id: number;
   location: string;
   buildAt: string;
-  startTime: string;
-  endTime: string;
+  start_time: string;
+  end_time: string;
 }
 
 @Table({ tableName: 'stadiums' })
@@ -85,9 +85,9 @@ export class Stadium extends Model<Stadium, StadiumAttr> {
   // USER
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
-  user_id: number;
+  owner_id: number;
   @BelongsTo(() => User)
-  user: User[];
+  owner: User[];
 
   // REGION
   @ForeignKey(() => Region)

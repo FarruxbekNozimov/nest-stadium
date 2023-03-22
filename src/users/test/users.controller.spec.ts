@@ -1,12 +1,11 @@
 import { describe } from 'node:test';
-import { UsersController } from '../../users/users.controller';
-import { UsersService } from '../../users/users.service';
+import { UsersController } from '../users.controller';
+import { UsersService } from '../users.service';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { User } from '../../users/models/user.model';
-import { CreateUserDto } from '../../users/dto/create-user.dto';
-import { userStub } from './stubs/stadium.stub';
-// import { AppModule } from '../../app.module';
+import { User } from '../models/user.model';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { userStub } from './stubs/user.stub';
 
 jest.mock('../users.service');
 describe('Users controller', () => {
@@ -24,6 +23,7 @@ describe('Users controller', () => {
     usersService = moduleRef.get<UsersService>(UsersService);
     jest.clearAllMocks();
   });
+
   it('should be defined userController', () => {
     expect(usersController).toBeDefined();
   });
@@ -39,14 +39,25 @@ describe('Users controller', () => {
 
       beforeEach(async () => {
         createUserDto = {
-          name: userStub().name,
+          first_name: userStub().first_name,
+          last_name: userStub().last_name,
+          username: userStub().username,
+          password: userStub().hashed_password,
+          confirm_password: userStub().hashed_password,
+          telegram_link: userStub().telegram_link,
           email: userStub().email,
-          password: userStub().password,
+          phone: userStub().phone,
+          birthday: userStub().birthday,
         };
+        user = await usersController.createUser(createUserDto);
       });
 
-      it('should be defined userController', () => {
-        expect(UsersService).toBeDefined();
+      // it('then it should call usersService', () => {
+      //   expect(usersService.createUser).toHaveBeenCalledWith(createUserDto);
+      // });
+
+      it('then it should be return user', () => {
+        expect(user).toEqual(userStub());
       });
     });
   });
@@ -59,13 +70,11 @@ describe('Users controller', () => {
         user = await usersController.getUserById(userStub().id);
       });
 
-      it('then it should call userService', () => {
+      it('then it should call usersService', () => {
         expect(usersService.getUserById).toBeCalledWith(userStub().id);
       });
 
       it('then it should return user', () => {
-        console.log(user);
-
         expect(user).toEqual(userStub());
       });
     });
@@ -91,18 +100,19 @@ describe('Users controller', () => {
 
   describe('DeleteOneUser', () => {
     describe('When deleteUser is called', () => {
-      let user: Object;
+      let res: Object;
 
       beforeEach(async () => {
-        user = await usersController.deleteUser(userStub().id);
+        res = await usersController.deleteUser(userStub().id);
+        console.log(res);
       });
 
       test('then it should call userService', () => {
         expect(usersService.deleteUser).toBeCalledWith(userStub().id);
       });
 
-      test('then it should return user', () => {
-        expect(user).toEqual({ message: 'User is deleted' });
+      test('then it should return message', () => {
+        expect(res).toEqual(1);
       });
     });
   });

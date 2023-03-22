@@ -39,7 +39,7 @@ export class DistrictController {
   @ApiOperation({ summary: 'Get district' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getDistrictById(@Param('id') id: string) {
+  getDistrictById(@Param('id') id: number) {
     return this.districtService.getDistrictById(+id);
   }
 

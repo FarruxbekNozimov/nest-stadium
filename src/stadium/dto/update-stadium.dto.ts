@@ -2,38 +2,38 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateStadiumDto {
   @ApiProperty({ example: '1' })
-  category_id: number;
+  readonly category_id: number;
 
   @ApiProperty({ example: '1' })
-  owner_id: number;
+  readonly owner_id: number;
 
   @ApiProperty({ example: 'Telegram' })
-  contactWith?: string;
+  readonly contact_with: string;
 
   @ApiProperty({ example: 'Bunyodkor' })
-  name?: string;
+  readonly name: string;
 
   @ApiProperty({ example: '20' })
-  volume?: string;
+  readonly volume: string;
 
-  @ApiProperty({ example: 'Murzo Ulugbek' })
-  address?: string;
-
-  @ApiProperty({ example: '1' })
-  region_id: number;
+  @ApiProperty({ example: 'Mirzo Ulugbek' })
+  readonly address: string;
 
   @ApiProperty({ example: '1' })
-  district_id: number;
+  readonly region_id: number;
+
+  @ApiProperty({ example: '1' })
+  readonly district_id: number;
 
   @ApiProperty({ example: '41.299496-69.240074' })
-  location?: string;
+  readonly location: string;
 
   @ApiProperty({ example: '1975' })
-  buildAt?: string;
+  readonly buildAt: string;
 
   @ApiProperty({ example: '8:00' })
-  startTime?: string;
+  readonly start_time: string;
 
   @ApiProperty({ example: '16:00' })
-  endTime?: string;
+  readonly end_time: string;
 }

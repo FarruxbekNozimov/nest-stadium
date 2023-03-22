@@ -38,7 +38,7 @@ export class CartController {
   @ApiOperation({ summary: 'Get Cart' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getCartById(@Param('id') id: string) {
+  getCartById(@Param('id') id: number) {
     return this.cartService.getCartById(+id);
   }
 

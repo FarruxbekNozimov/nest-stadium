@@ -40,7 +40,7 @@ export class AdminController {
   @UseGuards(JwtAuthGuard)
   @UseGuards(AdminAuthGuard)
   @Get(':id')
-  getAdminById(@Param('id') id: string) {
+  getAdminById(@Param('id') id: number) {
     return this.adminService.getAdminById(+id);
   }
 

@@ -38,7 +38,7 @@ export class StadiumTimeController {
   @ApiOperation({ summary: 'Get StadiumTime' })
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getStadiumTimeById(@Param('id') id: string) {
+  getStadiumTimeById(@Param('id') id: number) {
     return this.stadiumTimeService.getStadiumTimeById(+id);
   }
 
