@@ -36,7 +36,7 @@ describe('Stadiums controller', () => {
       let stadium: Stadium;
       let createStadiumDto: CreateStadiumDto;
 
-      beforeEach(async () => {
+      beforeAll(async () => {
         createStadiumDto = {
           category_id: stadiumStub().category_id,
           owner_id: stadiumStub().owner_id,
@@ -52,7 +52,6 @@ describe('Stadiums controller', () => {
           end_time: stadiumStub().end_time,
         };
         stadium = await stadiumController.createStadium(createStadiumDto);
-        console.log(stadium);
       });
       console.log(stadiumStub(), stadium);
 

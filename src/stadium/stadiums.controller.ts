@@ -25,6 +25,7 @@ export class StadiumController {
   @UseGuards(AdminAuthGuard)
   @Post()
   createStadium(@Body() createStadiumDto: CreateStadiumDto) {
+    console.log(createStadiumDto);
     return this.stadiumService.createStadium(createStadiumDto);
   }
 
